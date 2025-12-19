@@ -12,95 +12,94 @@ blueprint:
     min_version: 2025.12.0
 
   input:
-    button1_event:
-      name: Button 1 – Event Entity
+
+    setup:
+      name: Button Event Entities Setup
       description: >
-        Select the event entity for Button 1
-      selector:
-        entity:
-          filter:
-            integration: matter
-            domain: event
-            device_class: button
+        Select the event entities for all 2 buttons on the IKEA BILRESA dual-button remote.
+      input:
+        button1_event:
+          name: Button 1 – Event Entity
+          description: >
+            Select the event entity for Button 1
+          selector: &button_event_selector
+            entity:
+              filter:
+                integration: matter
+                domain: event
+                device_class: button
 
-    button2_event:
-      name: Button 2 – Event Entity
+        button2_event:
+          name: Button 2 – Event Entity
+          description: >
+            Select the event entity for Button 2
+          selector: *button_event_selector
+
+    button1:
+      name: Button 1 Actions
       description: >
-        Select the event entity for Button 2
-      selector:
-        entity:
-          filter:
-            integration: matter
-            domain: event
-            device_class: button
+        Define actions for Button 1 presses.
+      input:
+        button1_single:
+          name: Button 1 – Single Press
+          description: Action for Button 1 single press (multi_press_1).
+          default: []
+          selector:
+            action: {}
 
-    # ---------------------------------------------------------------
-    # BUTTON 1 ACTIONS
-    # ---------------------------------------------------------------
+        button1_double:
+          name: Button 1 – Double Press
+          description: Action for Button 1 double press (multi_press_2).
+          default: []
+          selector:
+            action: {}
 
-    button1_single:
-      name: Button 1 – Single Press
-      description: Action for Button 1 single press (multi_press_1).
-      default: []
-      selector:
-        action: {}
+        button1_long_press:
+          name: Button 1 – Long Press (on press)
+          description: Action for Button 1 long press completion (long_press).
+          default: []
+          selector:
+            action: {}
 
-    button1_double:
-      name: Button 1 – Double Press
-      description: Action for Button 1 double press (multi_press_2).
-      default: []
-      selector:
-        action: {}
+        button1_long_release:
+          name: Button 1 – Long Press (on release)
+          description: Action for Button 1 long press completion (long_release).
+          default: []
+          selector:
+            action: {}
 
-    button1_long_press:
-      name: Button 1 – Long Press (on press)
-      description: Action for Button 1 long press completion (long_press).
-      default: []
-      selector:
-        action: {}
+    button2:
+      name: Button 2 Actions
+      description: >
+        Define actions for Button 2 presses.
+      input:
+        button2_single:
+          name: Button 2 – Single Press
+          description: Action for Button 2 single press (multi_press_1).
+          default: []
+          selector:
+            action: {}
 
-    button1_long_release:
-      name: Button 1 – Long Press (on release)
-      description: Action for Button 1 long press completion (long_release).
-      default: []
-      selector:
-        action: {}
+        button2_double:
+          name: Button 2 – Double Press
+          description: Action for Button 2 double press (multi_press_2).
+          default: []
+          selector:
+            action: {}
 
-    # ---------------------------------------------------------------
-    # BUTTON 2 ACTIONS
-    # ---------------------------------------------------------------
+        button2_long_press:
+          name: Button 2 – Long Press (on press)
+          description: Action for Button 2 long press completion (long_press).
+          default: []
+          selector:
+            action: {}
 
-    button2_single:
-      name: Button 2 – Single Press
-      description: Action for Button 2 single press (multi_press_1).
-      default: []
-      selector:
-        action: {}
-
-    button2_double:
-      name: Button 2 – Double Press
-      description: Action for Button 2 double press (multi_press_2).
-      default: []
-      selector:
-        action: {}
-
-    button2_long_press:
-      name: Button 2 – Long Press (on press)
-      description: Action for Button 2 long press completion (long_press).
-      default: []
-      selector:
-        action: {}
-
-    button2_long_release:
-      name: Button 2 – Long Press (on release)
-      description: Action for Button 2 long press completion (long_release).
-      default: []
-      selector:
-        action: {}
-
-# ===================================================================
-# AUTOMATION LOGIC
-# ===================================================================
+        button2_long_release:
+          name: Button 2 – Long Press (on release)
+          description: Action for Button 2 long press completion (long_release).
+          default: []
+          selector:
+            action: {}
 
 variables:
   button1_entity: !input button1_event
