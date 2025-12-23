@@ -1,11 +1,11 @@
-mode: single
+mode: restart
 blueprint:
   name: IKEA BILRESA Dual Button
   author: Skaronator
   description: >
     Full-featured automation for the IKEA BILRESA dual-button remote.
     Supports single press, double press, and long press for both buttons.
-    Version 1.1.0
+    Version 1.2.0
   domain: automation
   source_url: https://raw.githubusercontent.com/Skaronator/home-assistant-blueprints/refs/heads/main/automation/ikea-bilresa-dual-button.yaml
   homeassistant:
@@ -77,6 +77,16 @@ blueprint:
               max: 2
               step: 0.05
 
+        button1_holding_max_iterations:
+          name: Button 1 – Holding Max Iterations
+          description: Maximum number of iterations for "while holding" actions. This is a safety limit to prevent infinite loops.
+          default: 100
+          selector:
+            number:
+              min: 1
+              max: 1000
+              step: 1
+
         button1_while_holding:
           name: Button 1 – While Holding
           description: Action for Button 1 while holding. This action will be repeated at the defined interval while the button is held down.
@@ -127,6 +137,16 @@ blueprint:
               max: 2
               step: 0.05
 
+        button2_holding_max_iterations:
+          name: Button 2 – Holding Max Iterations
+          description: Maximum number of iterations for "while holding" actions. This is a safety limit to prevent infinite loops.
+          default: 100
+          selector:
+            number:
+              min: 1
+              max: 1000
+              step: 1
+
         button2_while_holding:
           name: Button 2 – While Holding
           description: Action for Button 2 while holding. This action will be repeated at the defined interval while the button is held down.
@@ -157,6 +177,8 @@ action:
   - variables:
       trigger_id: "{{ trigger.id }}"
       press_type: "{{ trigger.to_state.attributes.event_type }}"
+      button1_max_iterations: !input button1_holding_max_iterations
+      button2_max_iterations: !input button2_holding_max_iterations
 
   - parallel:
       - repeat:
@@ -164,30 +186,26 @@ action:
             - condition: template
               value_template: >
                 {{ press_type == 'long_press' and trigger_id == 'button1' and states(trigger.entity_id) == trigger.to_state.state }}
+            - condition: template
+              value_template: >
+                {{ repeat.index|default(0) <= button1_max_iterations }}
           sequence:
+            - sequence: !input button1_while_holding
             - delay:
                 seconds: !input button1_holding_interval
-            - choose:
-                - conditions:
-                    - condition: template
-                      value_template: >
-                        {{ press_type == 'long_press' and trigger_id == 'button1' and states(trigger.entity_id) == trigger.to_state.state }}
-                  sequence: !input button1_while_holding
 
       - repeat:
           while:
             - condition: template
               value_template: >
                 {{ press_type == 'long_press' and trigger_id == 'button2' and states(trigger.entity_id) == trigger.to_state.state }}
+            - condition: template
+              value_template: >
+                {{ repeat.index|default(0) <= button2_max_iterations }}
           sequence:
+            - sequence: !input button2_while_holding
             - delay:
                 seconds: !input button2_holding_interval
-            - choose:
-                - conditions:
-                    - condition: template
-                      value_template: >
-                        {{ press_type == 'long_press' and trigger_id == 'button2' and states(trigger.entity_id) == trigger.to_state.state }}
-                  sequence: !input button2_while_holding
 
       - choose:
           # Button 1 Actions
