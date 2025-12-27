@@ -2,10 +2,46 @@ mode: restart
 blueprint:
   name: IKEA BILRESA Dual Button
   author: Skaronator
-  description: >
-    Full-featured automation for the IKEA BILRESA dual-button remote.
-    Supports single press, double press, and long press and holding for both buttons.
-    Version 1.2.1
+  description: |
+    # IKEA BILRESA Dual Button Remote Automation
+
+    ## Current Version 1.2.2
+
+    ## Features
+
+    Simple automation blueprint for IKEA BILRESA dual-button remote.
+
+    ### Supported Actions for Each Button
+
+    * Single Press
+    * Double Press
+    * Long Press (on press and release)
+    * While Holding (with configurable interval)
+
+    ### Configuration Options
+
+    * Configurable interval for "while holding" actions.
+    * Safety limit on maximum iterations for "while holding" actions to prevent infinite loops.
+
+    ## Changelog
+
+    ### 1.2.2
+      - Improved descriptions and documentation.
+    ### 1.2.1
+      - Improved descriptions for blueprint inputs.
+    ### 1.2.0
+      - Added max iterations setting for "while holding" actions to prevent infinite loops.
+    ### 1.1.0
+      - Added "while holding" actions for both buttons with configurable interval.
+    ### 1.0.0
+      - Initial release with support for all button actions.
+
+    ## Support and Feedback
+
+    * GitHub: [Skaronator/home-assistant-blueprints](https://github.com/Skaronator/home-assistant-blueprints)
+    * Blueprint Exchange: [IKEA BILRESA Dual Button](https://community.home-assistant.io/t/ikea-bilresa-dual-button-remote/965815)
+
+    Thank you for using this blueprint! Your feedback and contributions are welcome. 💚
   domain: automation
   source_url: https://raw.githubusercontent.com/Skaronator/home-assistant-blueprints/refs/heads/main/automation/ikea-bilresa-dual-button.yaml
   homeassistant:
@@ -13,12 +49,13 @@ blueprint:
 
   input:
     setup:
-      name: Button Setup
+      name: ⚙️ Button Setup
       description: >
         Select the event entities for all 2 buttons on the IKEA BILRESA dual-button remote.
+      collapsed: true
       input:
         button1_event:
-          name: Button 1 – Entity
+          name: Entity
           description: >
             Select the event entity for Button 1
           selector: &button_event_selector
@@ -29,46 +66,48 @@ blueprint:
                 device_class: button
 
         button2_event:
-          name: Button 2 – Entity
+          name: Entity
           description: >
             Select the event entity for Button 2
           selector: *button_event_selector
 
     button1:
-      name: Button 1 Actions
+      name: >
+        1️⃣ Button 1 Actions
       description: >
         Define actions when pressing Button 1.
+      collapsed: true
       input:
         button1_single:
-          name: Button 1 – Single Press
-          description: Action for Button 1 single press (multi_press_1).
+          name: Single Press
+          description: Action for Button 1 single press.
           default: []
           selector:
             action: {}
 
         button1_double:
-          name: Button 1 – Double Press
-          description: Action for Button 1 double press (multi_press_2).
+          name: Double Press
+          description: Action for Button 1 double press.
           default: []
           selector:
             action: {}
 
         button1_long_press:
-          name: Button 1 – Long Press (on press)
-          description: Action for Button 1 long press completion (long_press).
+          name: Long Press (on press)
+          description: Action for Button 1 long press completion.
           default: []
           selector:
             action: {}
 
         button1_long_release:
-          name: Button 1 – Long Press (on release)
-          description: Action for Button 1 long press completion (long_release).
+          name: Long Press (on release)
+          description: Action for Button 1 long press completion.
           default: []
           selector:
             action: {}
 
         button1_holding_interval:
-          name: Button 1 – Holding Interval (seconds)
+          name: Holding Interval (seconds)
           description: Interval in seconds for repeating "while holding" actions.
           default: 0.2
           selector:
@@ -78,7 +117,7 @@ blueprint:
               step: 0.05
 
         button1_holding_max_iterations:
-          name: Button 1 – Holding Max Iterations
+          name: Holding Max Iterations
           description: Maximum number of iterations for "while holding" actions. This is a safety limit to prevent infinite loops.
           default: 100
           selector:
@@ -88,47 +127,49 @@ blueprint:
               step: 1
 
         button1_while_holding:
-          name: Button 1 – While Holding
+          name: While Holding
           description: Action for Button 1 while holding. This action will be repeated at the defined interval while the button is held down.
           default: []
           selector:
             action: {}
         
     button2:
-      name: Button 2 Actions
+      name: >
+        2️⃣ Button 2 Actions
       description: >
         Define actions when pressing Button 2.
+      collapsed: true
       input:
         button2_single:
-          name: Button 2 – Single Press
-          description: Action for Button 2 single press (multi_press_1).
+          name: Single Press
+          description: Action for Button 2 single press.
           default: []
           selector:
             action: {}
 
         button2_double:
-          name: Button 2 – Double Press
-          description: Action for Button 2 double press (multi_press_2).
+          name: Double Press
+          description: Action for Button 2 double press.
           default: []
           selector:
             action: {}
 
         button2_long_press:
-          name: Button 2 – Long Press (on press)
-          description: Action for Button 2 long press completion (long_press).
+          name: Long Press (on press)
+          description: Action for Button 2 long press completion.
           default: []
           selector:
             action: {}
 
         button2_long_release:
-          name: Button 2 – Long Press (on release)
-          description: Action for Button 2 long press completion (long_release).
+          name: Long Press (on release)
+          description: Action for Button 2 long press completion.
           default: []
           selector:
             action: {}
 
         button2_holding_interval:
-          name: Button 2 – Holding Interval (seconds)
+          name: Holding Interval (seconds)
           description: Interval in seconds for repeating "while holding" actions.
           default: 0.2
           selector:
@@ -138,7 +179,7 @@ blueprint:
               step: 0.05
 
         button2_holding_max_iterations:
-          name: Button 2 – Holding Max Iterations
+          name: Holding Max Iterations
           description: Maximum number of iterations for "while holding" actions. This is a safety limit to prevent infinite loops.
           default: 100
           selector:
@@ -148,7 +189,7 @@ blueprint:
               step: 1
 
         button2_while_holding:
-          name: Button 2 – While Holding
+          name: While Holding
           description: Action for Button 2 while holding. This action will be repeated at the defined interval while the button is held down.
           default: []
           selector:
