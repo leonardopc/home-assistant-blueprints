@@ -59,11 +59,6 @@ blueprint:
           description: >
             Select the event entity for Button 1
           selector: &button_event_selector
-            entity:
-              filter:
-                integration: mqtt
-                domain: event
-                device_class: button
 
         button2_event:
           name: Entity
