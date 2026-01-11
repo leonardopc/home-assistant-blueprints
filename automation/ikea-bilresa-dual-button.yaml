@@ -61,7 +61,7 @@ blueprint:
           selector: &button_event_selector
             entity:
               filter:
-                integration: matter
+                integration: mqtt
                 domain: event
                 device_class: button
 
